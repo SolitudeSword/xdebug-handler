@@ -15,12 +15,14 @@ use Psr\Log\LoggerInterface;
 use Psr\Log\LogLevel;
 
 /**
+ * 状态记录器
  * @author John Stevenson <john-stevenson@blueyonder.co.uk>
  * @internal
  */
 class Status
 {
     const ENV_RESTART = 'XDEBUG_HANDLER_RESTART';
+    /** @var string 通知事件名，需要时调用report前缀的方法 */
     const CHECK = 'Check';
     const ERROR = 'Error';
     const INFO = 'Info';
@@ -28,10 +30,13 @@ class Status
     const RESTART = 'Restart';
     const RESTARTING = 'Restarting';
     const RESTARTED = 'Restarted';
+    /** 以上都是通知事件名 */
 
+    /** @var bool 是否调试状态 */
     private $debug;
     private $envAllowXdebug;
     private $loaded;
+    /** @var LoggerInterface */
     private $logger;
     private $time;
 
@@ -61,9 +66,12 @@ class Status
 
     /**
      * Calls a handler method to report a message
+     * 调用一个处理方法，报告一个消息
      *
      * @param string $op The handler constant
+     *      事件名
      * @param null|string $data Data required by the handler
+     *      需要处理的事件数据
      */
     public function report($op, $data)
     {
@@ -74,9 +82,10 @@ class Status
 
     /**
      * Outputs a status message
+     * 输出一条状态消息
      *
-     * @param string $text
-     * @param string $level
+     * @param string $text 消息文本
+     * @param string $level 日志级别，默认为 DEBUG
      */
     private function output($text, $level = null)
     {
@@ -89,6 +98,11 @@ class Status
         }
     }
 
+    /**
+     * 检查一开始时调用
+     * @param string|null $loaded 如果加载了xdebug扩展，则是扩展版本号
+     * @return void
+     */
     private function reportCheck($loaded)
     {
         $this->loaded = $loaded;

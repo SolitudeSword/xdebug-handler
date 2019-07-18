@@ -142,6 +142,7 @@ class Process
 
     /**
      * Makes putenv environment changes available in $_SERVER and $_ENV
+     * 确保putenv使环境变化时，可以将 $_SERVER 和 $_ENV 生效
      *
      * @param string $name
      * @param string|false $value A false value unsets the variable
